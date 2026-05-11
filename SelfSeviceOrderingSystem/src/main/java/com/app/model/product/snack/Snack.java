@@ -4,16 +4,13 @@ import com.app.model.product.Product;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Snack implements Product {
-    private String name;
-    private int price;
-    private int sizeGramme;
-    private Map<String, Integer> ingredients;
+public abstract class Snack implements Product {
+    protected String name;
+    protected int price;
+    protected int sizeGramme;
+    protected Map<String, Integer> ingredients;
 
-    public Snack(String name, int price, int sizeGramme) {
-        this.name = name;
-        this.price = price;
-        this.sizeGramme = sizeGramme;
+    public Snack() {
         this.ingredients = new HashMap<>();
     }
 

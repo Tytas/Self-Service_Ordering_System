@@ -1,18 +1,22 @@
 package com.app;
 
-
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class App extends Application {
-  @Override
-  public void start(final Stage primaryStage) {
-    Pane root = new Pane(new Label("Hello World !"));
-    Scene scene = new Scene(root);
-    primaryStage.setScene(scene);
-    primaryStage.show();
-  }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/app/view/MainView.fxml"));
+        Scene scene = new Scene(loader.load());
+        primaryStage.setTitle("Mon App");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 }

@@ -5,7 +5,6 @@ import java.util.Map;
 
 public abstract class DrinkDecorator implements Drink {
     protected Drink wrappee;
-
     public DrinkDecorator(Drink wrappee) {
         this.wrappee = wrappee;
     }

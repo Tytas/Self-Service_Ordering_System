@@ -3,16 +3,13 @@ package com.app.model.product.drink;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ConcreteDrink implements Drink {
-    private String name;
-    private int price;
-    private int sizeMillimeter;
-    private Map<String, Integer> ingredients;
+public abstract class ConcreteDrink implements Drink {
+    protected String name;
+    protected int price;
+    protected int sizeMillimeter;
+    protected Map<String, Integer> ingredients;
 
-    public ConcreteDrink(String name, int price, int sizeMillimeter) {
-        this.name = name;
-        this.price = price;
-        this.sizeMillimeter = sizeMillimeter;
+    public ConcreteDrink() {
         this.ingredients = new HashMap<>();
     }
 
