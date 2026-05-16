@@ -4,7 +4,7 @@ import com.app.model.Order;
 import com.app.model.product.Product;
 import com.app.model.product.drink.DrinkCreator;
 import com.app.model.product.drink.drinkDecorator.SugarDecorator;
-import com.app.model.product.drink.drinkDecorator.CremeDecorator;
+import com.app.model.product.drink.drinkDecorator.CreamDecorator;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -50,7 +50,7 @@ public class MainController {
                 drink = new SugarDecorator((com.app.model.product.drink.Drink) drink);
             }
             if (cremeCheck.isSelected()) {
-                drink = new CremeDecorator((com.app.model.product.drink.Drink) drink);
+                drink = new CreamDecorator((com.app.model.product.drink.Drink) drink);
             }
 
             addToOrder(drink);
