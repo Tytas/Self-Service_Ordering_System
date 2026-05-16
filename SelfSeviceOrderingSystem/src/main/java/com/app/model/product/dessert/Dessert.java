@@ -1,16 +1,16 @@
-package com.app.model.product.snack;
+package com.app.model.product.dessert;
 
 import com.app.model.product.Product;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Snack implements Product {
+public abstract class Dessert implements Product {
     protected String name;
     protected int price;
     protected int sizeGramme;
     protected Map<String, Integer> ingredients;
 
-    public Snack() {
+    public Dessert() {
         this.ingredients = new HashMap<>();
     }
 
@@ -39,6 +39,6 @@ public abstract class Snack implements Product {
 
     @Override
     public String getDescription() {
-        return "Snack: " + name + " (" + sizeGramme + "g) - " + price + "€";
+        return "Dessert: " + name + " (" + sizeGramme + "g) - " + price + "€";
     }
 }
