@@ -37,29 +37,42 @@
                 <TabPane fx:id="catalogTabPane" tabClosingPolicy="UNAVAILABLE">
 
                     <Tab text="Drinks">
-                        <VBox spacing="8" style="-fx-padding: 12;">
-                            <HBox alignment="CENTER_LEFT" spacing="8">
-                                <Label text="☕ Coffee" style="-fx-font-size: 14px;" HBox.hgrow="ALWAYS"/>
-                                <Label text="? ₺" style="-fx-text-fill: #7f8c8d;"/>
-                                <Button text="+" onAction="#onAddDrink"
-                                        userData="coffee"
-                                        style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-background-radius: 4;"/>
-                            </HBox>
-                            <HBox alignment="CENTER_LEFT" spacing="8">
-                                <Label text="💧 Water" style="-fx-font-size: 14px;" HBox.hgrow="ALWAYS"/>
-                                <Label text="? ₺" style="-fx-text-fill: #7f8c8d;"/>
-                                <Button text="+" onAction="#onAddDrink"
-                                        userData="water"
-                                        style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-background-radius: 4;"/>
-                            </HBox>
+                        <VBox spacing="10" style="-fx-padding: 12;">
+                            <Label text="Drinks"
+                                   style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                                <content>
+                                    <VBox fx:id="drinksBox" spacing="8" />
+                                </content>
+                            </ScrollPane>
 
                             <Separator/>
 
-                            <!-- Decorator options -->
                             <Label text="Options"
                                    style="-fx-font-weight: bold; -fx-font-size: 13px;"/>
-                            <CheckBox fx:id="sugarCheck" text="+ Sugar"/>
-                            <CheckBox fx:id="cremeCheck" text="+ Cream"/>
+                            <VBox spacing="6">
+                                <CheckBox fx:id="sugarCheck" text="+ Sugar"/>
+                                <CheckBox fx:id="cremeCheck" text="+ Cream"/>
+                                <CheckBox fx:id="almondMilkCheck" text="+ Almond Milk"/>
+                                <CheckBox fx:id="coconutMilkCheck" text="+ Coconut Milk"/>
+                                <CheckBox fx:id="lactoseFreeMilkCheck" text="+ Lactose-free Milk"/>
+                                <CheckBox fx:id="oatMilkCheck" text="+ Oat Milk"/>
+                                <CheckBox fx:id="biggerSizeCheck" text="+ Larger Size"/>
+                            </VBox>
+                        </VBox>
+                    </Tab>
+
+                    <Tab text="Desserts">
+                        <VBox spacing="10" style="-fx-padding: 12;">
+                            <Label text="Desserts"
+                                   style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                                <content>
+                                    <VBox fx:id="dessertsBox" spacing="8" />
+                                </content>
+                            </ScrollPane>
                         </VBox>
                     </Tab>
 
