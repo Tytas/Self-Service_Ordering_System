@@ -120,8 +120,14 @@
 
     <!-- ═══════════════ STATUS BAR ═══════════════ -->
     <bottom>
-        <Label fx:id="statusLabel" text="Prêt"
-               style="-fx-background-color: #ecf0f1; -fx-padding: 6 16; -fx-font-size: 12px; -fx-text-fill: #7f8c8d;"/>
+        <VBox style="-fx-background-color: #ecf0f1;">
+            <ProgressBar fx:id="progressBar" 
+                        progress="0.0"
+                        prefWidth="Infinity"
+                        style="-fx-accent: #27ae60;"/>
+            <Label fx:id="statusLabel" text="Prêt"
+                style="-fx-padding: 6 16; -fx-font-size: 12px; -fx-text-fill: #7f8c8d;"/>
+        </VBox>
     </bottom>
 
 </BorderPane>

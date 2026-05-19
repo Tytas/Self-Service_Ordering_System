@@ -10,8 +10,8 @@ public class DrinkCreator extends FoodCreator {
 
     @Override
     public Product createProduct(String type) {
-        if (type.equalsIgnoreCase("Coffee")) {
-            return new Coffee();
+        if (type.equalsIgnoreCase("CaramelLatte")) {
+            return new CaramelLatte();
         } else if (type.equalsIgnoreCase("Water")) {
             return new Water();
         } else {
