@@ -3,7 +3,7 @@ package com.app.model.product.drink;
 public class IcedCaffeLatte extends ConcreteDrink {
 
     private static final String NAME = "Iced Caffé Latte";
-    private static final int PRICE = 120;
+    private static final int PRICE = 200;
     private static final int SIZE_MILLIMETER = 330;
 
     public IcedCaffeLatte() {

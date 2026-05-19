@@ -35,6 +35,6 @@ public abstract class ConcreteDessert extends Dessert {
 
     @Override
     public String getDescription() {
-        return "Dessert: " + name + " (" + sizeGramme + "g) - " + price + "€";
+        return "Dessert: " + name + " (" + sizeGramme + " grammes) - " + price + " TL";
     }
 }

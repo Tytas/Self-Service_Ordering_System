@@ -5,8 +5,8 @@ import java.util.Map;
 public class PistachioCroissant extends ConcreteDessert{
 
     private static final String NAME = "Pistachio Croissant";
-    private static final int PRICE = 0;
-    private static final int SIZE_GRAMME = 0;
+    private static final int PRICE = 210;
+    private static final int SIZE_GRAMME = 130;
     private static final Map<String, Integer> INGREDIENTS = Map.of();
 
     public PistachioCroissant() {

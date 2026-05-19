@@ -5,8 +5,8 @@ import java.util.Map;
 public class CreamyWaffle extends ConcreteDessert {
 
     private static final String NAME = "Creamy Waffle";
-    private static final int PRICE = 0;
-    private static final int SIZE_GRAMME = 0;
+    private static final int PRICE = 210;
+    private static final int SIZE_GRAMME = 200;
     private static final Map<String, Integer> INGREDIENTS = Map.of();
 
     public CreamyWaffle() {

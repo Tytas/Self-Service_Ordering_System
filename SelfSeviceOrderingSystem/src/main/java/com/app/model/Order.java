@@ -59,4 +59,8 @@ public class Order {
     public void serviceDone() {
         notifyObservers(OrderEvent.SERVICE_DONE);
     }
+
+    public void onTheWay() {
+        notifyObservers(OrderEvent.ORDER_ON_THE_WAY);
+    }
 }

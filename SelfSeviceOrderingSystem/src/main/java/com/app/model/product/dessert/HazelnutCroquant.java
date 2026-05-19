@@ -5,8 +5,8 @@ import java.util.Map;
 public class HazelnutCroquant extends ConcreteDessert {
 
     private static final String NAME = "Hazelnut Croquant";
-    private static final int PRICE = 0;
-    private static final int SIZE_GRAMME = 0;
+    private static final int PRICE = 235;
+    private static final int SIZE_GRAMME = 145;
     private static final Map<String, Integer> INGREDIENTS = Map.of();
 
     public HazelnutCroquant() {

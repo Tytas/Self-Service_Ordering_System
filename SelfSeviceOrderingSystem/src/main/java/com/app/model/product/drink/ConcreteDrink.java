@@ -39,6 +39,6 @@ public abstract class ConcreteDrink implements Drink {
 
     @Override
     public String getDescription() {
-        return "Drink: " + name + " (" + sizeMillimeter + "ml) - " + price + "$";
+        return "Drink: " + name + " (" + sizeMillimeter + "ml) - " + price + " TL";
     }
 }

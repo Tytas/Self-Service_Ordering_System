@@ -2,7 +2,7 @@ package com.app.model.product.drink.drinkDecorator;
 import com.app.model.product.drink.Drink;
 
 public class CreamDecorator extends DrinkDecorator {
-    private static final int CREAM_PRICE_INCREASE = 2;
+    private static final int CREAM_PRICE_INCREASE = 15;
 
     public CreamDecorator(Drink wrappee) {
         super(wrappee);

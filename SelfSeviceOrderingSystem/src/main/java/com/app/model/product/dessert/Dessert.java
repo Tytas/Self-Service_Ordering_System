@@ -39,6 +39,6 @@ public abstract class Dessert implements Product {
 
     @Override
     public String getDescription() {
-        return "Dessert: " + name + " (" + sizeGramme + "g) - " + price + "€";
+        return "Dessert: " + name + " (" + sizeGramme + " grammes) - " + price + " TL";
     }
 }

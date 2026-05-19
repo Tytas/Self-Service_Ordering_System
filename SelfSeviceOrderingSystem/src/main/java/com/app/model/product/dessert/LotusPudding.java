@@ -5,8 +5,8 @@ import java.util.Map;
 public class LotusPudding extends ConcreteDessert {
 
     private static final String NAME = "Lotus Pudding";
-    private static final int PRICE = 0;
-    private static final int SIZE_GRAMME = 0;
+    private static final int PRICE = 225;
+    private static final int SIZE_GRAMME = 170;
     private static final Map<String, Integer> INGREDIENTS = Map.of();
 
     public LotusPudding() {

@@ -5,8 +5,8 @@ import java.util.Map;
 public class ChocolateStrawberryCake extends ConcreteDessert {
 
     private static final String NAME = "Chocolate Strawberry Cake";
-    private static final int PRICE = 0;
-    private static final int SIZE_GRAMME = 0;
+    private static final int PRICE = 260;
+    private static final int SIZE_GRAMME = 180;
     private static final Map<String, Integer> INGREDIENTS = Map.of();
 
     public ChocolateStrawberryCake() {
