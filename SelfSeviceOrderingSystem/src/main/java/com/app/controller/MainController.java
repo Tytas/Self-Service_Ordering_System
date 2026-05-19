@@ -6,8 +6,7 @@ import com.app.model.observer.TerminalObserver;
 import com.app.model.product.Product;
 import com.app.model.product.drink.DrinkCreator;
 import com.app.model.product.drink.drinkDecorator.SugarDecorator;
-import com.app.model.product.drink.drinkDecorator.CremeDecorator;
-import com.app.model.product.snack.SnackCreator;
+import com.app.model.product.drink.drinkDecorator.CreamDecorator;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -34,17 +33,15 @@ public class MainController {
     // ═══════════════ State ═══════════════
 
     private final DrinkCreator drinkCreator = new DrinkCreator();
-    private final SnackCreator snackCreator = new SnackCreator();
 
     private final Order order = new Order();
-    
     private GUIObserver guiObserver;
 
-    // ═══════════════ Init ═══════════════
+    // ═══════════════ Initialization ═══════════════
 
     @FXML
     public void initialize() {
-        updateStatus("Prêt");
+        updateStatus("Ready");
         order.addObserver(new TerminalObserver());
         guiObserver = new GUIObserver(statusLabel, progressBar);
         order.addObserver(guiObserver);
@@ -59,33 +56,19 @@ public class MainController {
         try {
             Product drink = drinkCreator.createProduct(type);
 
-            // Applique les décorateurs selon les checkboxes
+            // Apply decorators according to the checkboxes
             if (sugarCheck.isSelected()) {
                 drink = new SugarDecorator((com.app.model.product.drink.Drink) drink);
             }
             if (cremeCheck.isSelected()) {
-                drink = new CremeDecorator((com.app.model.product.drink.Drink) drink);
+                drink = new CreamDecorator((com.app.model.product.drink.Drink) drink);
             }
 
             addToOrder(drink);
-            updateStatus(drink.getName() + " ajouté à la commande.");
+            updateStatus(drink.getName() + " added to the order.");
 
         } catch (IllegalArgumentException e) {
-            updateStatus("Erreur : " + e.getMessage());
-        }
-    }
-
-    @FXML
-    private void onAddSnack(ActionEvent event) {
-        String type = (String) ((Button) event.getSource()).getUserData();
-
-        try {
-            Product snack = snackCreator.createProduct(type);
-            addToOrder(snack);
-            updateStatus(snack.getName() + " ajouté à la commande.");
-
-        } catch (IllegalArgumentException e) {
-            updateStatus("Erreur : " + e.getMessage());
+            updateStatus("Error: " + e.getMessage());
         }
     }
 
@@ -95,13 +78,13 @@ public class MainController {
         orderListView.getItems().clear();
         totalLabel.setText("0 ₺");
         guiObserver.reset();
-        updateStatus("Commande vidée.");
+        updateStatus("Order cleared.");
     }
 
     @FXML
     private void onConfirmOrder() {
         if (order.getItems().isEmpty()) {
-            updateStatus("Votre commande est vide !");
+            updateStatus("Your order is empty!");
             return;
         }
         order.confirm(); // → ORDER_CONFIRMED
@@ -116,7 +99,7 @@ public class MainController {
 
         preparation.setOnFinished(e -> service.play());
         preparation.play();
-        updateStatus("Commande confirmée ! Total : " + order.getTotalPrice() + " ₺");
+        updateStatus("Order confirmed! Total: " + order.getTotalPrice() + " ₺");
     }
 
     // ═══════════════ Helpers ═══════════════

@@ -14,47 +14,27 @@
         <VBox style="-fx-background-color: #2c3e50; -fx-padding: 16;">
             <Label text="🍔 Food Order"
                    style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;"/>
-            <Label text="Composez votre commande"
+                 <Label text="Build your order"
                    style="-fx-text-fill: #bdc3c7; -fx-font-size: 13px;"/>
         </VBox>
     </top>
 
-    <!-- ═══════════════ CONTENU PRINCIPAL ═══════════════ -->
+    <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
     <center>
         <HBox spacing="16">
             <BorderPane.margin>
                 <Insets top="16" right="16" bottom="16" left="16"/>
             </BorderPane.margin>
 
-            <!-- ─── Panneau gauche : catalogue ─── -->
+            <!-- ─── Left panel: catalog ─── -->
             <VBox spacing="12" prefWidth="340"
                   style="-fx-background-color: white; -fx-background-radius: 8; -fx-padding: 16;">
 
                 <Label text="Catalogue"
                        style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
 
-                <!-- Onglets Snacks / Drinks -->
+                <!-- Drinks tab -->
                 <TabPane fx:id="catalogTabPane" tabClosingPolicy="UNAVAILABLE">
-
-                    <Tab text="Snacks">
-                        <VBox spacing="8" style="-fx-padding: 12;">
-                            <!-- Chaque ligne = un produit + bouton Ajouter -->
-                            <HBox alignment="CENTER_LEFT" spacing="8">
-                                <Label text="🍔 Burger" style="-fx-font-size: 14px;" HBox.hgrow="ALWAYS"/>
-                                <Label text="? ₺" style="-fx-text-fill: #7f8c8d;"/>
-                                <Button text="+" onAction="#onAddSnack"
-                                        userData="burger"
-                                        style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-background-radius: 4;"/>
-                            </HBox>
-                            <HBox alignment="CENTER_LEFT" spacing="8">
-                                <Label text="🥪 Panini" style="-fx-font-size: 14px;" HBox.hgrow="ALWAYS"/>
-                                <Label text="? ₺" style="-fx-text-fill: #7f8c8d;"/>
-                                <Button text="+" onAction="#onAddSnack"
-                                        userData="panini"
-                                        style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-background-radius: 4;"/>
-                            </HBox>
-                        </VBox>
-                    </Tab>
 
                     <Tab text="Drinks">
                         <VBox spacing="8" style="-fx-padding: 12;">
@@ -75,25 +55,25 @@
 
                             <Separator/>
 
-                            <!-- Options décorateur -->
+                            <!-- Decorator options -->
                             <Label text="Options"
                                    style="-fx-font-weight: bold; -fx-font-size: 13px;"/>
-                            <CheckBox fx:id="sugarCheck" text="+ Sucre"/>
-                            <CheckBox fx:id="cremeCheck" text="+ Crème"/>
+                            <CheckBox fx:id="sugarCheck" text="+ Sugar"/>
+                            <CheckBox fx:id="cremeCheck" text="+ Cream"/>
                         </VBox>
                     </Tab>
 
                 </TabPane>
             </VBox>
 
-            <!-- ─── Panneau droit : commande en cours ─── -->
+            <!-- ─── Right panel: current order ─── -->
             <VBox spacing="12" HBox.hgrow="ALWAYS"
                   style="-fx-background-color: white; -fx-background-radius: 8; -fx-padding: 16;">
 
-                <Label text="Ma commande"
+                  <Label text="My Order"
                        style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
 
-                <!-- Liste des articles ajoutés -->
+                <!-- List of added items -->
                 <ListView fx:id="orderListView" VBox.vgrow="ALWAYS"
                           style="-fx-background-radius: 6;"/>
 
@@ -108,9 +88,9 @@
 
                 <!-- Actions -->
                 <HBox spacing="8" alignment="CENTER_RIGHT">
-                    <Button fx:id="clearButton" text="Vider" onAction="#onClearOrder"
+                        <Button fx:id="clearButton" text="Clear" onAction="#onClearOrder"
                             style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 4; -fx-padding: 8 16;"/>
-                    <Button fx:id="orderButton" text="Commander" onAction="#onConfirmOrder"
+                        <Button fx:id="orderButton" text="Place Order" onAction="#onConfirmOrder"
                             style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-background-radius: 4; -fx-padding: 8 16; -fx-font-weight: bold;"/>
                 </HBox>
 
