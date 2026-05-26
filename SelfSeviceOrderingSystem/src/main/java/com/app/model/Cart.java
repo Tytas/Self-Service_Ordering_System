@@ -1,22 +1,33 @@
 package com.app.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import com.app.model.product.Product;
 import java.util.List;
 
 public class Cart {
     private static final Cart INSTANCE = new Cart();
-    private final List<CartItem> items = new ArrayList<>();
+    private final Order order = new Order();
 
     private Cart() {}
 
     public static Cart getInstance() { return INSTANCE; }
 
-    public void addItem(CartItem item) { items.add(item); }
+    public void addProduct(Product product) {
+        order.addProduct(product);
+    }
 
-    public List<CartItem> getItems() { return Collections.unmodifiableList(items); }
+    public List<Product> getItems() {
+        return order.getItems();
+    }
 
-    public int getTotalPrice() { return items.stream().mapToInt(CartItem::getTotalPrice).sum(); }
+    public Order getOrder() {
+        return order;
+    }
 
-    public void clear() { items.clear(); }
+    public int getTotalPrice() {
+        return order.getTotalPrice();
+    }
+
+    public void clear() {
+        order.clear();
+    }
 }

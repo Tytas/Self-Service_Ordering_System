@@ -2,7 +2,7 @@ package com.app.controller;
 
 import com.app.model.menu.MenuCatalog;
 import com.app.model.menu.MenuCategory;
-import com.app.model.menu.ProductItem;
+import com.app.model.product.Product;
 import com.app.view.CategoryPageView;
 import com.app.view.MenuView;
 import javafx.scene.layout.BorderPane;
@@ -25,7 +25,7 @@ public class UIController {
 		root.setCenter(categoryPageView.build(category, MenuCatalog.getProducts(category), this::showMenu, product -> showProductDetails(category, product)));
 	}
 
-	private void showProductDetails(MenuCategory category, ProductItem product) {
+	private void showProductDetails(MenuCategory category, Product product) {
 		Stage owner = root.getScene() != null && root.getScene().getWindow() instanceof Stage stage ? stage : null;
 		CategoryPageView.showProductDialog(owner, category, product);
 	}

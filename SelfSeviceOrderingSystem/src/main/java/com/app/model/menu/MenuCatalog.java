@@ -15,8 +15,8 @@ public final class MenuCatalog {
         return List.of(MenuCategory.HOT_DRINKS, MenuCategory.COLD_DRINKS, MenuCategory.DESSERTS);
     }
 
-    public static List<ProductItem> getProducts(MenuCategory category) {
-        List<ProductItem> out = new ArrayList<>();
+    public static List<Product> getProducts(MenuCategory category) {
+        List<Product> out = new ArrayList<>();
         if (category == MenuCategory.HOT_DRINKS) {
             FoodCreator creator = new DrinkCreator();
             String[] names = {
@@ -33,7 +33,7 @@ public final class MenuCatalog {
             };
             for (String n : names) {
                 Product p = creator.createProduct(n);
-                out.add(new ProductItem(p.getName(), p.getDescription(), p.getPrice(), "Image area"));
+                out.add(p);
             }
             return out;
         }
@@ -59,7 +59,7 @@ public final class MenuCatalog {
             };
             for (String n : names) {
                 Product p = creator.createProduct(n);
-                out.add(new ProductItem(p.getName(), p.getDescription(), p.getPrice(), "Image area"));
+                out.add(p);
             }
             return out;
         }
@@ -85,7 +85,7 @@ public final class MenuCatalog {
             };
             for (String n : names) {
                 Product p = creator.createProduct(n);
-                out.add(new ProductItem(p.getName(), p.getDescription(), p.getPrice(), "Image area"));
+                out.add(p);
             }
             return out;
         }

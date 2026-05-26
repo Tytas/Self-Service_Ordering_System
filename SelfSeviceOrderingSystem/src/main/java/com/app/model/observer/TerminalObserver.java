@@ -8,18 +8,16 @@ public class TerminalObserver implements OrderObserver {
     public void update(Order order, OrderEvent event) {
         switch (event) {
             case ORDER_CONFIRMED -> {
-                System.out.println("=== Nouvelle commande confirmée ===");
+                System.out.println("=== New order confirmed ===");
                 order.getItems().forEach(p ->
                     System.out.println("  - " + p.getName() + " : " + p.getPrice() + " TL")
                 );
-                System.out.println("  Total : " + order.getTotalPrice() + " TL");
+                System.out.println("  Total: " + order.getTotalPrice() + " TL");
             }
             case PREPARATION_DONE ->
-                System.out.println("✅ Commande prête ! En attente de service...");
-            case ORDER_ON_THE_WAY ->
-                System.out.println("🚚 Commande en route !");
+                System.out.println("Order ready - awaiting service...");
             case SERVICE_DONE ->
-                System.out.println("🍽️  Commande servie en table. Bon appétit !");
+                System.out.println("Order served at table. Enjoy your meal!");
         }
     }
 }
