@@ -181,7 +181,10 @@ public class CategoryPageView {
             goToCartButton.setOnMouseExited(evt -> goToCartButton.setStyle("-fx-background-color: #10b981; -fx-text-fill: white; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-cursor: hand;"));
             goToCartButton.setOnAction(goEvent -> {
                 dialog.close();
-                com.app.view.AppView.openCartModal(owner);
+                // debug: print cart size to console to ensure product was added
+                System.out.println("DEBUG: cart size before opening modal = " + com.app.model.Cart.getInstance().getItems().size());
+                // ensure cart modal opens after the current dialog fully closes to avoid timing issues
+                javafx.application.Platform.runLater(() -> com.app.view.AppView.openCartModal(owner));
             });
 
             VBox confirmation = new VBox(14, addedMessage, goToCartButton);

@@ -124,16 +124,15 @@ public class AppView {
             orderNowButton.setDisable(true);
             progressBox.setVisible(false);
             content.getChildren().clear();
-            Label emptyState = new Label("No items in the cart.");
+            Label emptyState = new Label("Cart is empty.");
             emptyState.setStyle("-fx-text-fill: #9ca3af; -fx-font-size: 13px;");
             HBox emptyButtons = new HBox(8, orderNowButton, clearButton);
             content.getChildren().addAll(title, emptyState, emptyButtons);
-            dialog.close();
         });
 
         Runnable showEmptyCartView = () -> {
             content.getChildren().clear();
-            Label emptyState = new Label("No items in the cart yet.");
+            Label emptyState = new Label("Cart is empty.");
             emptyState.setStyle("-fx-text-fill: #9ca3af; -fx-font-size: 13px;");
             HBox emptyButtons = new HBox(8, orderNowButton, clearButton);
             content.getChildren().addAll(title, emptyState, emptyButtons);
@@ -211,7 +210,7 @@ public class AppView {
         }
 
         if (items.isEmpty()) {
-            Label emptyState = new Label("No items in the cart yet.");
+            Label emptyState = new Label("Cart is empty.");
             emptyState.setStyle("-fx-text-fill: #9ca3af; -fx-font-size: 13px;");
             HBox emptyButtons = new HBox(8, orderNowButton, clearButton);
             content.getChildren().addAll(title, emptyState, emptyButtons);
