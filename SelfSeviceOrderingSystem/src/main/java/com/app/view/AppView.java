@@ -1,6 +1,15 @@
 package com.app.view;
 
 import com.app.controller.UIController;
+import com.app.model.Cart;
+import com.app.model.Order;
+import com.app.model.OrderManager;
+import com.app.model.product.Product;
+import com.app.model.observer.GUIObserver;
+import com.app.model.observer.TerminalObserver;
+import com.app.model.observer.OrderObserver;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,6 +31,7 @@ import jfxtras.styles.jmetro.Style;
 
 public class AppView {
     private Stage primaryStage;
+    private static final Logger LOGGER = Logger.getLogger(AppView.class.getName());
 
     public void show(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -81,7 +91,7 @@ public class AppView {
         Label title = new Label("Order Summary");
         title.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #f3f4f6;");
 
-        java.util.List<com.app.model.product.Product> items = com.app.model.Cart.getInstance().getItems();
+        java.util.List<Product> items = Cart.getInstance().getItems();
 
         Button orderNowButton = new Button("✓ Order Now");
         orderNowButton.setStyle("-fx-background-color: #10b981; -fx-text-fill: white; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-font-size: 13px; -fx-cursor: hand;");
@@ -111,7 +121,7 @@ public class AppView {
             desc.setStyle("-fx-text-fill: #9ca3af; -fx-font-size: 12px;");
             listBox.getChildren().addAll(item, desc);
         }
-        Label total = new Label("Total: " + com.app.model.Cart.getInstance().getTotalPrice() + " TL");
+        Label total = new Label("Total: " + Cart.getInstance().getTotalPrice() + " TL");
         total.setStyle("-fx-font-weight: bold; -fx-text-fill: #10b981; -fx-font-size: 14px;");
 
         Button clearButton = new Button("🗑️ Clear");
@@ -119,8 +129,8 @@ public class AppView {
         clearButton.setOnMouseEntered(e2 -> clearButton.setStyle("-fx-background-color: #dc2626; -fx-text-fill: white; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-font-size: 13px; -fx-cursor: hand;"));
         clearButton.setOnMouseExited(e2 -> clearButton.setStyle("-fx-background-color: #ef4444; -fx-text-fill: white; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-font-size: 13px; -fx-cursor: hand;"));
         clearButton.setOnAction(e -> {
-            com.app.model.Cart.getInstance().clear();
-            com.app.model.OrderManager.getInstance().resetCurrentOrder();
+            Cart.getInstance().clear();
+            OrderManager.getInstance().resetCurrentOrder();
             orderNowButton.setDisable(true);
             progressBox.setVisible(false);
             content.getChildren().clear();
@@ -139,36 +149,24 @@ public class AppView {
         };
 
         orderNowButton.setOnAction(event -> {
-            com.app.model.OrderManager manager = com.app.model.OrderManager.getInstance();
+                OrderManager manager = OrderManager.getInstance();
             // prepare and show progress UI
             content.getChildren().clear();
             content.getChildren().addAll(title, listBox, total, progressBox);
             progressBox.setVisible(true);
 
-            try {
+                try {
                 manager.prepareOrder(items);
                 // attach GUI observer to update status label and progress bar
-                com.app.model.observer.GUIObserver guiObserver = new com.app.model.observer.GUIObserver(statusLabel, progressBar);
+                GUIObserver guiObserver = new GUIObserver(statusLabel, progressBar);
                 manager.attachObserver(guiObserver);
                 // attach terminal observer to log to console
-                manager.attachObserver(new com.app.model.observer.TerminalObserver());
+                manager.attachObserver(new TerminalObserver());
                 // attach a small observer to clear cart and restore UI when service is done
-                manager.attachObserver(new com.app.model.observer.OrderObserver() {
-                    @Override
-                    public void update(com.app.model.Order o, com.app.model.observer.OrderEvent ev) {
-                        if (ev == com.app.model.observer.OrderEvent.SERVICE_DONE) {
-                            Platform.runLater(() -> {
-                                com.app.model.Cart.getInstance().clear();
-                                manager.resetCurrentOrder();
-                                showEmptyCartView.run();
-                                orderNowButton.setDisable(true);
-                            });
-                        }
-                    }
-                });
+                manager.attachObserver(new ServiceDoneObserver(showEmptyCartView, orderNowButton, manager));
                 manager.startCurrentOrder();
             } catch (Exception ex) {
-                ex.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Failed to start order", ex);
                 Platform.runLater(() -> {
                     javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
                     alert.setTitle("Error");
@@ -180,33 +178,21 @@ public class AppView {
         });
 
         // If an order is already in progress, attach and show its progress so closing/reopening preserves state
-        com.app.model.Order existing = com.app.model.OrderManager.getInstance().getCurrentOrder();
+        Order existing = OrderManager.getInstance().getCurrentOrder();
         if (existing != null) {
             orderNowButton.setDisable(true);
             // attach GUI and terminal observers to reflect current order progress
-            com.app.model.observer.GUIObserver guiObserver = new com.app.model.observer.GUIObserver(statusLabel, progressBar);
-            com.app.model.OrderManager.getInstance().attachObserver(guiObserver);
-            com.app.model.OrderManager.getInstance().attachObserver(new com.app.model.observer.TerminalObserver());
+            GUIObserver guiObserver = new GUIObserver(statusLabel, progressBar);
+            OrderManager.getInstance().attachObserver(guiObserver);
+            OrderManager.getInstance().attachObserver(new TerminalObserver());
             // attach small observer to clear cart when service completes
-            com.app.model.OrderManager.getInstance().attachObserver(new com.app.model.observer.OrderObserver() {
-                @Override
-                public void update(com.app.model.Order o, com.app.model.observer.OrderEvent ev) {
-                    if (ev == com.app.model.observer.OrderEvent.SERVICE_DONE) {
-                        Platform.runLater(() -> {
-                            com.app.model.Cart.getInstance().clear();
-                            com.app.model.OrderManager.getInstance().resetCurrentOrder();
-                            showEmptyCartView.run();
-                            orderNowButton.setDisable(true);
-                        });
-                    }
-                }
-            });
+            OrderManager.getInstance().attachObserver(new ServiceDoneObserver(showEmptyCartView, orderNowButton, OrderManager.getInstance()));
             // initialize UI to current progress
             progressBox.setVisible(true);
             content.getChildren().clear();
             content.getChildren().addAll(title, listBox, total, progressBox);
-            progressBar.setProgress(com.app.model.OrderManager.getInstance().getProgress());
-            statusLabel.setText(com.app.model.OrderManager.getInstance().getStatus());
+            progressBar.setProgress(OrderManager.getInstance().getProgress());
+            statusLabel.setText(OrderManager.getInstance().getStatus());
         }
 
         if (items.isEmpty()) {
@@ -223,5 +209,29 @@ public class AppView {
         Scene scene = new Scene(content, 460, 380);
         dialog.setScene(scene);
         dialog.showAndWait();
+    }
+
+    private static class ServiceDoneObserver implements OrderObserver {
+        private final Runnable showEmptyCartView;
+        private final Button orderNowButton;
+        private final OrderManager manager;
+
+        ServiceDoneObserver(Runnable showEmptyCartView, Button orderNowButton, OrderManager manager) {
+            this.showEmptyCartView = showEmptyCartView;
+            this.orderNowButton = orderNowButton;
+            this.manager = manager;
+        }
+
+        @Override
+        public void update(Order o, com.app.model.observer.OrderEvent ev) {
+            if (ev == com.app.model.observer.OrderEvent.SERVICE_DONE) {
+                Platform.runLater(() -> {
+                    Cart.getInstance().clear();
+                    manager.resetCurrentOrder();
+                    showEmptyCartView.run();
+                    orderNowButton.setDisable(true);
+                });
+            }
+        }
     }
 }

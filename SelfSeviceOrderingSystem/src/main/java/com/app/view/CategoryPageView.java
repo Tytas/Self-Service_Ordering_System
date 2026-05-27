@@ -30,6 +30,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class CategoryPageView {
+    private static final java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(CategoryPageView.class.getName());
     public ScrollPane build(MenuCategory category, List<Product> products, Runnable onBack, Consumer<Product> onProductSelected) {
         VBox container = new VBox(18);
         container.setPadding(new Insets(24));
@@ -181,8 +182,8 @@ public class CategoryPageView {
             goToCartButton.setOnMouseExited(evt -> goToCartButton.setStyle("-fx-background-color: #10b981; -fx-text-fill: white; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-cursor: hand;"));
             goToCartButton.setOnAction(goEvent -> {
                 dialog.close();
-                // debug: print cart size to console to ensure product was added
-                System.out.println("DEBUG: cart size before opening modal = " + com.app.model.Cart.getInstance().getItems().size());
+                // debug: log cart size to ensure product was added
+                LOGGER.fine(() -> "DEBUG: cart size before opening modal = " + com.app.model.Cart.getInstance().getItems().size());
                 // ensure cart modal opens after the current dialog fully closes to avoid timing issues
                 javafx.application.Platform.runLater(() -> com.app.view.AppView.openCartModal(owner));
             });

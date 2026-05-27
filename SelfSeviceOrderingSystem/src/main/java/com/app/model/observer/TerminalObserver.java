@@ -4,20 +4,22 @@ import com.app.model.Order;
 
 public class TerminalObserver implements OrderObserver {
 
+    private static final java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(TerminalObserver.class.getName());
+
     @Override
     public void update(Order order, OrderEvent event) {
         switch (event) {
             case ORDER_CONFIRMED -> {
-                System.out.println("=== New order confirmed ===");
+                LOGGER.info("=== New order confirmed ===");
                 order.getItems().forEach(p ->
-                    System.out.println("  - " + p.getName() + " : " + p.getPrice() + " TL")
+                    LOGGER.info("  - " + p.getName() + " : " + p.getPrice() + " TL")
                 );
-                System.out.println("  Total: " + order.getTotalPrice() + " TL");
+                LOGGER.info("  Total: " + order.getTotalPrice() + " TL");
             }
             case PREPARATION_DONE ->
-                System.out.println("Order ready - awaiting service...");
+                LOGGER.info("Order ready - awaiting service...");
             case SERVICE_DONE ->
-                System.out.println("Order served at table. Enjoy your meal!");
+                LOGGER.info("Order served at table. Enjoy your meal!");
         }
     }
 }

@@ -3,14 +3,27 @@ package com.app.model;
 import com.app.model.observer.OrderObserver;
 import com.app.model.product.Product;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
 public class OrderManager {
     private static final OrderManager INSTANCE = new OrderManager();
-    private Order currentOrder;
-    private double progress = 0.0;
-    private String status = "Ready";
+    private volatile Order currentOrder;
+    private volatile double progress = 0.0;
+    private volatile String status = "Ready";
+    private final ExecutorService executor;
 
     private OrderManager() {}
+
+    {
+        ThreadFactory tf = r -> {
+            Thread t = new Thread(r, "OrderProcessor");
+            t.setDaemon(true);
+            return t;
+        };
+        executor = Executors.newSingleThreadExecutor(tf);
+    }
 
     public static OrderManager getInstance() {
         return INSTANCE;
@@ -35,8 +48,8 @@ public class OrderManager {
             return;
         }
 
-        // Run order progression on a background thread to avoid blocking the UI
-        new Thread(() -> {
+        // Run order progression on a background executor to avoid blocking the UI
+        executor.submit(() -> {
             try {
                 currentOrder.confirm();
                 progress = 0.33;
@@ -59,10 +72,13 @@ public class OrderManager {
                 Thread.currentThread().interrupt();
                 status = "Interrupted";
             }
-        }, "OrderProcessor").start();
+        });
     }
 
     public void resetCurrentOrder() {
+        if (currentOrder != null) {
+            currentOrder.clearObservers();
+        }
         currentOrder = null;
         progress = 0.0;
         status = "Ready";

@@ -46,6 +46,13 @@ public class Order {
     private void notifyObservers(OrderEvent event) {
         observers.forEach(o -> o.update(this, event));
     }
+
+    /**
+     * Remove all registered observers. Useful to avoid leaks when discarding this order.
+     */
+    public void clearObservers() {
+        observers.clear();
+    }
  
  
     public void confirm() {
