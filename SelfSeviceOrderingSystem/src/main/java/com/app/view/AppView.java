@@ -25,10 +25,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import jfxtras.styles.jmetro.JMetro;
-import jfxtras.styles.jmetro.JMetroStyleClass;
-import jfxtras.styles.jmetro.Style;
-
 public class AppView {
     private Stage primaryStage;
     private static final Logger LOGGER = Logger.getLogger(AppView.class.getName());
@@ -36,15 +32,14 @@ public class AppView {
     public void show(Stage primaryStage) {
         this.primaryStage = primaryStage;
         BorderPane root = new BorderPane();
-        root.getStyleClass().add(JMetroStyleClass.BACKGROUND);
+        root.getStyleClass().add("app-root");
 
         UIController controller = new UIController(root);
         root.setTop(createHeader());
         controller.showMenu();
 
         Scene scene = new Scene(root, 1000, 700);
-        JMetro jMetro = new JMetro(Style.DARK);
-        jMetro.setScene(scene);
+        scene.getStylesheets().add(getClass().getResource("/styles/app.css").toExternalForm());
 
         primaryStage.setTitle("Self-Service Ordering System");
         primaryStage.setScene(scene);
@@ -53,19 +48,17 @@ public class AppView {
 
     private HBox createHeader() {
         HBox header = new HBox(12);
-        header.setStyle("-fx-padding: 18 24; -fx-background-color: #1f2937; -fx-border-color: #374151; -fx-border-width: 0 0 1 0;");
+        header.getStyleClass().add("header");
 
         Label title = new Label("Self-Service Ordering System");
-        title.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #f3f4f6;");
+        title.getStyleClass().add("title-label");
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
         Button cartButton = new Button("🛒 Cart");
-        cartButton.setStyle("-fx-background-color: #10b981; -fx-text-fill: white; -fx-border-radius: 8; -fx-background-radius: 8; -fx-font-weight: bold; -fx-font-size: 13px; -fx-padding: 8 16; -fx-cursor: hand;");
+        cartButton.getStyleClass().addAll("button", "cart-button");
         cartButton.setOnAction(event -> showCartModal());
-        cartButton.setOnMouseEntered(e -> cartButton.setStyle("-fx-background-color: #059669; -fx-text-fill: white; -fx-border-radius: 8; -fx-background-radius: 8; -fx-font-weight: bold; -fx-font-size: 13px; -fx-padding: 8 16; -fx-cursor: hand;"));
-        cartButton.setOnMouseExited(e -> cartButton.setStyle("-fx-background-color: #10b981; -fx-text-fill: white; -fx-border-radius: 8; -fx-background-radius: 8; -fx-font-weight: bold; -fx-font-size: 13px; -fx-padding: 8 16; -fx-cursor: hand;"));
 
         header.getChildren().addAll(title, spacer, cartButton);
         return header;
@@ -86,29 +79,23 @@ public class AppView {
         VBox content = new VBox(14);
         content.setPadding(new Insets(18));
         content.setAlignment(Pos.CENTER_LEFT);
-        content.setStyle("-fx-background-color: #1f2937;");
+        content.getStyleClass().add("modal-content");
 
         Label title = new Label("Order Summary");
-        title.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #f3f4f6;");
+        title.getStyleClass().add("title-modal");
 
         java.util.List<Product> items = Cart.getInstance().getItems();
 
         Button orderNowButton = new Button("✓ Order Now");
-        orderNowButton.setStyle("-fx-background-color: #10b981; -fx-text-fill: white; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-font-size: 13px; -fx-cursor: hand;");
+        orderNowButton.getStyleClass().addAll("button", "primary-button");
         orderNowButton.setDisable(items.isEmpty());
-        orderNowButton.setOnMouseEntered(e -> {
-            if (!orderNowButton.isDisable()) orderNowButton.setStyle("-fx-background-color: #059669; -fx-text-fill: white; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-font-size: 13px; -fx-cursor: hand;");
-        });
-        orderNowButton.setOnMouseExited(e -> {
-            if (!orderNowButton.isDisable()) orderNowButton.setStyle("-fx-background-color: #10b981; -fx-text-fill: white; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-font-size: 13px; -fx-cursor: hand;");
-        });
 
         // Progress UI inside cart modal
         ProgressBar progressBar = new ProgressBar(0);
         progressBar.setPrefWidth(360);
-        progressBar.setStyle("-fx-accent: #10b981;");
+        progressBar.getStyleClass().add("progress-bar");
         Label statusLabel = new Label();
-        statusLabel.setStyle("-fx-text-fill: #f3f4f6;");
+        statusLabel.getStyleClass().add("progress-label");
         VBox progressBox = new VBox(8, statusLabel, progressBar);
         progressBox.setVisible(false);
 
@@ -116,18 +103,16 @@ public class AppView {
         VBox listBox = new VBox(8);
         for (com.app.model.product.Product it : items) {
             Label item = new Label(it.getName() + " - " + it.getPrice());
-            item.setStyle("-fx-text-fill: #f3f4f6; -fx-font-size: 13px;");
+            item.getStyleClass().add("item-label");
             Label desc = new Label(it.getDescription());
-            desc.setStyle("-fx-text-fill: #9ca3af; -fx-font-size: 12px;");
+            desc.getStyleClass().add("description-label");
             listBox.getChildren().addAll(item, desc);
         }
         Label total = new Label("Total: " + Cart.getInstance().getTotalPrice() + " TL");
-        total.setStyle("-fx-font-weight: bold; -fx-text-fill: #10b981; -fx-font-size: 14px;");
+        total.getStyleClass().add("total-label");
 
         Button clearButton = new Button("🗑️ Clear");
-        clearButton.setStyle("-fx-background-color: #ef4444; -fx-text-fill: white; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-font-size: 13px; -fx-cursor: hand;");
-        clearButton.setOnMouseEntered(e2 -> clearButton.setStyle("-fx-background-color: #dc2626; -fx-text-fill: white; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-font-size: 13px; -fx-cursor: hand;"));
-        clearButton.setOnMouseExited(e2 -> clearButton.setStyle("-fx-background-color: #ef4444; -fx-text-fill: white; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-font-size: 13px; -fx-cursor: hand;"));
+        clearButton.getStyleClass().addAll("button", "danger-button");
         clearButton.setOnAction(e -> {
             Cart.getInstance().clear();
             OrderManager.getInstance().resetCurrentOrder();
@@ -135,7 +120,7 @@ public class AppView {
             progressBox.setVisible(false);
             content.getChildren().clear();
             Label emptyState = new Label("Cart is empty.");
-            emptyState.setStyle("-fx-text-fill: #9ca3af; -fx-font-size: 13px;");
+            emptyState.getStyleClass().add("empty-state-label");
             HBox emptyButtons = new HBox(8, orderNowButton, clearButton);
             content.getChildren().addAll(title, emptyState, emptyButtons);
         });
@@ -143,7 +128,7 @@ public class AppView {
         Runnable showEmptyCartView = () -> {
             content.getChildren().clear();
             Label emptyState = new Label("Cart is empty.");
-            emptyState.setStyle("-fx-text-fill: #9ca3af; -fx-font-size: 13px;");
+            emptyState.getStyleClass().add("empty-state-label");
             HBox emptyButtons = new HBox(8, orderNowButton, clearButton);
             content.getChildren().addAll(title, emptyState, emptyButtons);
         };
@@ -197,7 +182,7 @@ public class AppView {
 
         if (items.isEmpty()) {
             Label emptyState = new Label("Cart is empty.");
-            emptyState.setStyle("-fx-text-fill: #9ca3af; -fx-font-size: 13px;");
+            emptyState.getStyleClass().add("empty-state-label");
             HBox emptyButtons = new HBox(8, orderNowButton, clearButton);
             content.getChildren().addAll(title, emptyState, emptyButtons);
         } else {
@@ -207,6 +192,7 @@ public class AppView {
 
 
         Scene scene = new Scene(content, 460, 380);
+        scene.getStylesheets().add(AppView.class.getResource("/styles/app.css").toExternalForm());
         dialog.setScene(scene);
         dialog.showAndWait();
     }

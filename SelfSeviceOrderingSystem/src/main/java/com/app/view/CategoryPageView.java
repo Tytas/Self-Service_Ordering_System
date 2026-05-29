@@ -34,6 +34,7 @@ public class CategoryPageView {
     public ScrollPane build(MenuCategory category, List<Product> products, Runnable onBack, Consumer<Product> onProductSelected) {
         VBox container = new VBox(18);
         container.setPadding(new Insets(24));
+        container.getStyleClass().add("category-container");
 
         HBox topRow = new HBox(12);
         Button backButton = new Button("← Back");
@@ -79,6 +80,8 @@ public class CategoryPageView {
 
         ScrollPane scroll = new ScrollPane(container);
         scroll.setFitToWidth(true);
+        scroll.getStyleClass().add("category-scroll");
+        scroll.setStyle("-fx-background-color: transparent; -fx-background: transparent;");
         return scroll;
     }
 
